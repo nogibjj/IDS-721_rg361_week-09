@@ -1,0 +1,11 @@
+#Add Packages Required by Github Actions Here
+
+#Devops
+black
+black_nbconvert
+pytest
+pytest-cov
+pytest-playwright
+ruff
+nbval
+nbqa

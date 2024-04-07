@@ -1,0 +1,44 @@
+name: CI
+# Testing is paused, activate in actual repo
+on:
+  push:
+    branches: [ "main" ]
+    paths: 
+    - "**.py"
+    - "**.ipynb"
+  pull_request:
+    branches: [ "main" ]
+    paths: 
+    - "**.py"
+    - "**ipynb"
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name : install packages
+        run : make install_actions
+      #- name: test 
+       # run: make test
+      - name : format
+        run : make format
+      - name: lint
+        run: make lint
+      - name: Archive and Upload Artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: github_actions
+          path: ${{ github.workspace }}
+        
+      - name: Save to repository
+        env:
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
+        run: |
+          echo GH_TOKEN: "${GH_TOKEN}"
+          git config --global user.name 'github-actions'
+          git config --local user.email "action@github.com"
+          git add .
+          git commit -m "Performed CICD" || echo "ignore commit failure, proceed"
+          git push
