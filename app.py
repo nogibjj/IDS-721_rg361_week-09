@@ -1,6 +1,10 @@
 import streamlit as st
 import requests
 
+
+## ======= Transformers+Pipeline =========== ##
+## Uncomment the below code if you want to use the pipeline approach
+
 # from transformers import pipeline
 
 # # Initializing the pipeline for the model
@@ -15,6 +19,10 @@ import requests
 #     except:  # noqa
 #         return "Sorry, there was an error. Please try again."
 
+## ======= Transformers+Pipeline =========== ##
+
+
+## ======== API Approach ================== ##
 
 API_URL = "https://api-inference.huggingface.co/models/grammarly/coedit-large"
 headers = {"Authorization": "Bearer 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"}
@@ -29,6 +37,9 @@ def query(dropdown_value, textinput_value):
         return response.json()[0]["generated_text"]
     except:  # noqa
         return "Sorry, there was an error. Please try again."
+
+
+## ======== API Approach ================== ##
 
 
 # defining the streamlit app

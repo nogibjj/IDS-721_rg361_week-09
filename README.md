@@ -5,8 +5,8 @@
 In this project [streamlit](https://streamlit.io/) is used to create a simple web app that uses a pre-trained model from [Hugging Face](https://huggingface.co/). The app takes in a sentence from the user and modifies it according to the seletion made by the user.
 
 The app is deployed on the following 2 services:
-1. Streamlit : [Link]
-2. AWS EC2: [Link]
+1. AWS EC2: [Link](http://3.128.171.9:8501/) 
+2. Streamlit : [Link](https://ids-721rg361week-09.streamlit.app/)
 
 Note: 
 - AWS EC2 might not work at the time you are viewing this repo as the instance may be stopped due to cost reasons.
@@ -39,7 +39,21 @@ pip install -r requirements.txt
 ```bash
 streamlit run app.py
 ```
-4. you can access the app with any browser using the 8501 port with the address `http://localhost:8501`
+4. you can access the app with any browser using the 8501 port with the address [http://localhost:8501](http://localhost:8501)
+
+
+## App Structure:
+The app has two main components to it:
+- The user-interface which is built using streamlit
+- The back-end LLM which is sourced from Hugging Face
+
+The user-interface takes in the input from the user and processes it to make it compatible with the model. The processed input is then passed to the model which processes it and returns the output. The output is then processed by the user-interface and displayed to the user.
+
+For the LLM part,  
+- Intially the model was developed and tested locally by downlaoding the model and making use of the pipeline functionality from the transformers library.
+- For the deployment, an API interface was used to interact with the same model. API interface was used so that I could use use the model with a minimum spec AWS EC2 instance to ``save cost``, the API functionality enables us to use even the most complex and large models with minimal resources.
+
+the code for using the pipeline approach is still available in the app.py file and is commented out in the app.py in case you want to test that approach.
 
 ## App Deployment Process:
 
@@ -48,7 +62,8 @@ As mentioned earlier, the app was also deployed on AWS EC2 and Streamlit, a brie
 ### AWS EC2 Deployment:
 1. Create an AWS EC2 instance, make sure it:
     - has sufficient resources to run the app
-    - allows inbound and outbound connections
+    - configured to allow external connections  
+![AWS EC2 Instance](resources/aws_config.png)  
 2. Once the instance is created, under the security group setting, add a new rule to allow inbound traffic on port 8501 (this is the port which streamlit uses)
 3. connect to the instance and update the instance using the following commands:
 ```bash
