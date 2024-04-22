@@ -1,8 +1,12 @@
 import streamlit as st
 from transformers import pipeline
+import requests
 
 # Initializing the pipeline for the model
-pipe = pipeline("text2text-generation", model="grammarly/coedit-large")
+try:
+    pipe = pipeline("text2text-generation", model="grammarly/coedit-large")
+except:
+    st.error("There was an error loading the model. Please check huggingface status.")
 
 
 # To process the input and get the output
