@@ -9,7 +9,7 @@ pipe = pipeline("text2text-generation", model="grammarly/coedit-large")
 def query(dropdown_value, textinput_value):
     prompt = dropdown_value + ": " + textinput_value
     try:
-        return pipe(prompt)[0]["generated_text"]
+        return pipe(prompt, max_new_tokens=50)[0]["generated_text"]
     except:  # noqa
         return "Sorry, there was an error. Please try again."
 
