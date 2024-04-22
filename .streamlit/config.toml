@@ -1,6 +1,0 @@
-[server]
-headless = true
-port = 
-enableCORS = false
-
-
