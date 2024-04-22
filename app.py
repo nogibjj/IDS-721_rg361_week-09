@@ -1,19 +1,15 @@
 import streamlit as st
 from transformers import pipeline
-import requests
 
 # Initializing the pipeline for the model
-try:
-    pipe = pipeline("text2text-generation", model="grammarly/coedit-large")
-except:
-    st.error("There was an error loading the model. Please check huggingface status.")
+pipe = pipeline("text2text-generation", model="grammarly/coedit-large")
 
 
 # To process the input and get the output
 def query(dropdown_value, textinput_value):
     prompt = dropdown_value + ": " + textinput_value
     try:
-        return pipe(prompt, max_length=100)[0]["generated_text"]
+        return pipe(prompt)[0]["generated_text"]
     except:  # noqa
         return "Sorry, there was an error. Please try again."
 
