@@ -1,15 +1,32 @@
 import streamlit as st
-from transformers import pipeline
+import requests
 
-# Initializing the pipeline for the model
-pipe = pipeline("text2text-generation", model="grammarly/coedit-large")
+# from transformers import pipeline
+
+# # Initializing the pipeline for the model
+# pipe = pipeline("text2text-generation", model="grammarly/coedit-large")
 
 
-# To process the input and get the output
+# # To process the input and get the output
+# def query(dropdown_value, textinput_value):
+#     prompt = dropdown_value + ": " + textinput_value
+#     try:
+#         return pipe(prompt, max_new_tokens=50)[0]["generated_text"]
+#     except:  # noqa
+#         return "Sorry, there was an error. Please try again."
+
+
+API_URL = "https://api-inference.huggingface.co/models/grammarly/coedit-large"
+headers = {"Authorization": "Bearer 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"}
+
+
 def query(dropdown_value, textinput_value):
+
     prompt = dropdown_value + ": " + textinput_value
+    payload = {"inputs": prompt}
+    response = requests.post(API_URL, headers=headers, json=payload)
     try:
-        return pipe(prompt, max_new_tokens=50)[0]["generated_text"]
+        return response.json()[0]["generated_text"]
     except:  # noqa
         return "Sorry, there was an error. Please try again."
 
